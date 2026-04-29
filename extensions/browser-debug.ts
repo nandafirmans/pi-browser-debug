@@ -13,6 +13,65 @@ export default function (pi: ExtensionAPI) {
   };
 
   pi.registerTool({
+    name: "browser_navigate",
+    label: "Navigate to URL",
+    description: "Navigate active page to URL. Handles load states, SSL errors, and timeouts.",
+    parameters: Type.Object({
+      url: Type.String({ description: "URL to navigate to" }),
+      waitUntil: Type.Optional(Type.String({ default: "load", description: "load, domcontentloaded, networkidle, commit" })),
+      timeout: Type.Optional(Type.Number({ default: 30000, description: "Navigation timeout in ms" })),
+    }),
+    async execute(_id, params) {
+      ensureConnected();
+      try {
+        const response = await page.goto(params.url, {
+          waitUntil: params.waitUntil ?? "load",
+          timeout: params.timeout ?? 30000,
+        });
+        const status = response?.status() ?? "no response";
+        return {
+          content: [{
+            type: "text",
+            text: `Navigated to: ${page.url()}\nHTTP status: ${status}\nTitle: ${await page.title()}`,
+          }],
+        };
+      } catch (err: any) {
+        return {
+          content: [{ type: "text", text: `Navigation failed: ${err.message}` }],
+          isError: true,
+        };
+      }
+    },
+  });
+
+  pi.registerTool({
+    name: "browser_screenshot",
+    label: "Screenshot",
+    description: "Take screenshot of active page or specific element",
+    parameters: Type.Object({
+      fullPage: Type.Optional(Type.Boolean({ default: false })),
+      selector: Type.Optional(Type.String({ description: "CSS selector of element to screenshot" })),
+    }),
+    async execute(_id, params) {
+      ensureConnected();
+      let buffer: Buffer;
+      if (params.selector) {
+        const el = page.locator(params.selector);
+        buffer = await el.screenshot();
+      } else {
+        buffer = await page.screenshot({ fullPage: params.fullPage ?? false });
+      }
+      const b64 = buffer.toString("base64");
+      return {
+        content: [
+          { type: "text", text: `Screenshot taken (${b64.length} chars base64)` },
+          { type: "image", source: { type: "base64", mediaType: "image/png", data: b64 } },
+        ],
+      };
+    },
+  });
+
+  pi.registerTool({
     name: "browser_connect",
     label: "Connect to Browser",
     description: "Connect to an active browser via Chrome DevTools Protocol (CDP). Start browser with --remote-debugging-port=9222 first.",
