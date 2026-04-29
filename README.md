@@ -6,16 +6,23 @@ Pi extension for debugging active browser sessions via Chrome DevTools Protocol 
 
 Start your browser with remote debugging enabled:
 
+**macOS**
 ```bash
-# Chrome / Chromium / Edge
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+```
 
-# Linux
-google-chrome --remote-debugging-port=9222
+**Linux**
+```bash
+# If you get "Opening in existing browser session", use --user-data-dir to force a new instance
+google-chrome-stable --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-debug
+```
 
-# Windows
+**Windows**
+```bash
 chrome.exe --remote-debugging-port=9222
 ```
+
+> **Tip:** Keep the terminal open. Closing it kills the browser instance.
 
 ## Install
 
@@ -32,6 +39,7 @@ pi install ./path/to/pi-browser-debug
 | Tool | Description |
 |------|-------------|
 | `browser_connect` | Connect to active browser via CDP |
+| `browser_navigate` | Navigate to URL with proper load handling |
 | `browser_list_pages` | List all open tabs |
 | `browser_console` | Capture console logs |
 | `browser_network` | Capture failed/slow network requests |
@@ -41,22 +49,27 @@ pi install ./path/to/pi-browser-debug
 | `browser_click` | Click element by selector or name |
 | `browser_fill` | Fill form input |
 | `browser_reload` | Reload page |
+| `browser_screenshot` | Take screenshot of page or element |
 | `browser_close` | Close CDP connection |
 
 ## Usage in Pi
 
+Natural language:
 ```
 Connect to my browser on port 9222
+Navigate to https://localhost:5003
 Get console logs
-Evaluate document.querySelectorAll('.error').length
+Take a screenshot
 ```
 
-Or call tools directly:
-
+Direct tool calls:
 ```
 /browser_connect port=9222
+/browser_navigate url=https://localhost:5003 waitUntil=networkidle
 /browser_console level=error
-/browser_eval code="location.href"
+/browser_network filter=failed
+/browser_screenshot fullPage=true
+/browser_eval code="document.querySelectorAll('.error').length"
 ```
 
 ## Requirements
