@@ -1,0 +1,22 @@
+{
+  "name": "pi-browser-debug",
+  "version": "1.0.0",
+  "description": "Pi extension for debugging active browser sessions via Chrome DevTools Protocol",
+  "keywords": ["pi-package"],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "pi": {
+    "extensions": ["./extensions"]
+  }
+}
