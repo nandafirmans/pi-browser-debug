@@ -2,12 +2,29 @@
   "name": "pi-browser-debug",
   "version": "1.0.0",
   "description": "Pi extension for debugging active browser sessions via Chrome DevTools Protocol",
-  "keywords": ["pi-package"],
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "pi",
+    "browser",
+    "debug",
+    "chrome-devtools-protocol",
+    "cdp",
+    "playwright"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nandafirmans/pi-browser-debug.git"
+  },
+  "homepage": "https://github.com/nandafirmans/pi-browser-debug#readme",
+  "bugs": {
+    "url": "https://github.com/nandafirmans/pi-browser-debug/issues"
+  },
+  "author": "nandafirmans",
   "license": "MIT",
   "dependencies": {
     "playwright": "^1.40.0"
