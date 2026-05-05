@@ -1,5 +1,5 @@
 {
-  "name": "@nandafirmans/pi-browser-debug",
+  "name": "pi-browser-debug",
   "version": "1.0.0",
   "description": "Pi extension for debugging active browser sessions via Chrome DevTools Protocol",
   "keywords": [
@@ -26,6 +26,9 @@
   },
   "author": "nandafirmans",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "playwright": "^1.40.0"
   },
