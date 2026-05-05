@@ -28,7 +28,7 @@ chrome.exe --remote-debugging-port=9222
 
 ```bash
 # From npm
-pi install npm:pi-browser-debug
+pi install npm:@nandafirmans/pi-browser-debug
 
 # From git
 pi install git:github.com/nandafirmans/pi-browser-debug
